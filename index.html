@@ -1,0 +1,878 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="referrer" content="no-referrer" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; connect-src 'self'; img-src 'self' data:; base-uri 'none'; form-action 'none'"
+    />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="環遊世界" />
+    <meta name="theme-color" content="#f6f4ef" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0c0f14" media="(prefers-color-scheme: dark)" />
+    <link rel="apple-touch-icon" href="icon.png" />
+    <title>全家環遊世界</title>
+    <style>
+      :root {
+        --bg: #f6f4ef; --surface: #ffffff; --surface-2: #f7f5f0;
+        --fg: #18191d; --fg-2: #3d3f46; --muted: #6c6d74; --faint: #9b9ba1;
+        --line: rgba(24, 25, 29, 0.08); --line-2: rgba(24, 25, 29, 0.16);
+        --seg-bg: rgba(24, 25, 29, 0.06); --dot: rgba(24, 25, 29, 0.17);
+        --accent: #2a5bd7; --accent-2: #7b5cd6; --accent-bg: #ecf1fd; --accent-ink: #1f47a8; --link: #2556c4;
+        --summer: #e2722b; --summer-2: #f0a93b; --summer-bg: #fdf0e4; --summer-ink: #a24b12;
+        --winter: #2b78cf; --winter-2: #22a6be; --winter-bg: #e8f1fb; --winter-ink: #1d5291;
+        --short: #d6517f; --short-2: #9a68d8; --short-bg: #fbeaf1; --short-ink: #a02c58;
+        --ok-bg: #e5f4ea; --ok-ink: #1f6d3b; --warn-bg: #fdefdc; --warn-ink: #8f4e0b;
+        --shadow-sm: 0 1px 2px rgba(24, 25, 29, 0.06);
+        --shadow: 0 1px 2px rgba(24, 25, 29, 0.04), 0 10px 26px -12px rgba(24, 25, 29, 0.16);
+        --shadow-lg: 0 2px 6px rgba(24, 25, 29, 0.06), 0 24px 46px -16px rgba(24, 25, 29, 0.24);
+        --ab-h: 56px;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #0c0f14; --surface: #151a21; --surface-2: #1a2028;
+          --fg: #eef0f3; --fg-2: #c7ccd4; --muted: #9aa2ad; --faint: #6b7480;
+          --line: rgba(255, 255, 255, 0.07); --line-2: rgba(255, 255, 255, 0.14);
+          --seg-bg: rgba(255, 255, 255, 0.07); --dot: rgba(255, 255, 255, 0.15);
+          --accent: #7aa5ff; --accent-2: #a98bff; --accent-bg: rgba(122, 165, 255, 0.12); --accent-ink: #a9c4ff; --link: #86aefc;
+          --summer: #f2924a; --summer-2: #f6bf55; --summer-bg: rgba(242, 146, 74, 0.14); --summer-ink: #f6b07a;
+          --winter: #5b9ff0; --winter-2: #44c7da; --winter-bg: rgba(91, 159, 240, 0.14); --winter-ink: #93c0f6;
+          --short: #ee77a3; --short-2: #b28df2; --short-bg: rgba(238, 119, 163, 0.14); --short-ink: #f4a2c1;
+          --ok-bg: rgba(72, 187, 120, 0.16); --ok-ink: #8fdcab; --warn-bg: rgba(242, 168, 78, 0.16); --warn-ink: #f4c385;
+          --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+          --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 12px 30px -14px rgba(0, 0, 0, 0.6);
+          --shadow-lg: 0 2px 8px rgba(0, 0, 0, 0.4), 0 26px 50px -18px rgba(0, 0, 0, 0.7);
+        }
+      }
+      * { box-sizing: border-box; }
+      html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+      body {
+        margin: 0; background: var(--bg); color: var(--fg);
+        font: 17px/1.7 -apple-system, BlinkMacSystemFont, "SF Pro Text", "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", system-ui, sans-serif;
+        -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; -webkit-tap-highlight-color: transparent;
+      }
+      a { color: inherit; text-decoration: none; }
+      button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
+      .num { font-variant-numeric: tabular-nums; }
+      .ic { width: 20px; height: 20px; flex: none; }
+      .page { max-width: 1120px; margin: 0 auto; padding: 0 20px; }
+      .t-summer { --trk: var(--summer); --trk2: var(--summer-2); --trk-bg: var(--summer-bg); --trk-ink: var(--summer-ink); }
+      .t-winter { --trk: var(--winter); --trk2: var(--winter-2); --trk-bg: var(--winter-bg); --trk-ink: var(--winter-ink); }
+      .t-short { --trk: var(--short); --trk2: var(--short-2); --trk-bg: var(--short-bg); --trk-ink: var(--short-ink); }
+      .t-neutral { --trk: var(--accent); --trk2: var(--accent-2); --trk-bg: var(--accent-bg); --trk-ink: var(--accent-ink); }
+
+      /* splash */
+      .splash { min-height: 100vh; display: grid; place-content: center; justify-items: center; gap: 14px; padding: 24px; text-align: center; }
+      .splash .map { width: min(560px, 86vw); }
+      .splash-t { font-size: 17px; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+      .splash-s { font-size: 15px; color: var(--muted); max-width: 30em; }
+      .splash.busy .splash-t { animation: breathe 1.6s ease-in-out infinite; }
+      @keyframes breathe { 50% { opacity: 0.45; } }
+
+      /* app bar */
+      .appbar {
+        position: sticky; top: 0; z-index: 40; padding-top: env(safe-area-inset-top);
+        background: transparent; border-bottom: 1px solid transparent; transition: background 0.2s, border-color 0.2s;
+      }
+      .appbar.scrolled {
+        background: color-mix(in srgb, var(--bg) 80%, transparent);
+        -webkit-backdrop-filter: saturate(1.8) blur(18px); backdrop-filter: saturate(1.8) blur(18px);
+        border-bottom-color: var(--line);
+      }
+      .ab-in { max-width: 1120px; margin: 0 auto; height: var(--ab-h); display: flex; align-items: center; gap: 10px; padding: 0 14px 0 16px; }
+      .brand { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 17px; letter-spacing: 0.02em; white-space: nowrap; }
+      .brand-mark {
+        width: 30px; height: 30px; border-radius: 9px; display: grid; place-items: center; color: #fff;
+        background: linear-gradient(135deg, var(--summer), var(--short) 55%, var(--winter));
+        box-shadow: 0 4px 10px -4px color-mix(in srgb, var(--short) 60%, transparent);
+      }
+      .brand-mark .ic { width: 18px; height: 18px; }
+      .topnav { display: none; gap: 4px; margin: 0 auto; }
+      .topnav a { padding: 7px 16px; border-radius: 999px; font-size: 15px; color: var(--muted); font-weight: 650; }
+      .topnav a.on { color: var(--fg); background: var(--surface); box-shadow: var(--shadow-sm); }
+      .grow { flex: 1; }
+      .iconbtn {
+        width: 40px; height: 40px; border-radius: 999px; display: grid; place-items: center; flex: none;
+        background: var(--surface); border: 1px solid var(--line); box-shadow: var(--shadow-sm);
+      }
+      .ab-title {
+        flex: 1; min-width: 0; text-align: center; font-weight: 750; font-size: 17px; white-space: nowrap; overflow: hidden;
+        text-overflow: ellipsis; opacity: 0; transform: translateY(4px); transition: opacity 0.2s, transform 0.2s;
+      }
+      .appbar.show-title .ab-title { opacity: 1; transform: none; }
+
+      /* segmented control */
+      .seg { display: inline-flex; padding: 3px; border-radius: 999px; background: var(--seg-bg); gap: 2px; flex: none; }
+      .seg button { padding: 5px 13px; border-radius: 999px; font-size: 14px; font-weight: 650; color: var(--muted); white-space: nowrap; transition: background 0.15s, color 0.15s; }
+      .seg button.on { background: var(--surface); color: var(--fg); box-shadow: var(--shadow-sm); }
+
+      /* tab bar */
+      .tabbar {
+        position: fixed; left: 0; right: 0; bottom: 0; z-index: 40; display: flex; justify-content: space-around;
+        padding: 6px 8px calc(4px + env(safe-area-inset-bottom));
+        background: color-mix(in srgb, var(--bg) 84%, transparent);
+        -webkit-backdrop-filter: saturate(1.8) blur(18px); backdrop-filter: saturate(1.8) blur(18px);
+        border-top: 1px solid var(--line);
+      }
+      .tabbar a { flex: 1; max-width: 160px; display: flex; flex-direction: column; align-items: center; gap: 1px; padding: 3px 0; font-size: 14px; font-weight: 650; color: var(--faint); }
+      .tabbar a .ic { width: 24px; height: 24px; }
+      .tabbar a.on { color: var(--fg); }
+      .has-tabbar { padding-bottom: calc(72px + env(safe-area-inset-bottom)); }
+
+      /* home hero */
+      .hero { padding-top: 18px; padding-bottom: 4px; }
+      .eyebrow { font-size: 13px; letter-spacing: 0.18em; font-weight: 750; color: var(--muted); }
+      .display { font-size: 38px; line-height: 1.15; margin: 8px 0 12px; font-weight: 800; letter-spacing: 0.01em; }
+      .grad { background: linear-gradient(100deg, var(--summer), var(--short) 50%, var(--winter)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+      .lede { font-size: 17px; color: var(--fg-2); margin: 0 0 18px; max-width: 34em; }
+      .stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+      .stat { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 14px 16px; box-shadow: var(--shadow-sm); }
+      .stat b { display: block; font-size: 28px; line-height: 1.15; font-weight: 800; letter-spacing: -0.01em; }
+      .stat span { font-size: 14px; color: var(--muted); }
+      .note { font-size: 14px; color: var(--muted); margin: 10px 2px 0; }
+
+      /* map */
+      .mapcard { margin: 16px 0 4px; background: var(--surface); border: 1px solid var(--line); border-radius: 24px; padding: 16px 12px 8px; box-shadow: var(--shadow); }
+      .map { display: block; width: 100%; height: auto; }
+      .map .land { fill: none; stroke: var(--dot); stroke-width: 0.8; stroke-linecap: round; }
+      .mk { cursor: pointer; }
+      .mk .halo { fill: var(--trk); opacity: 0.25; transform-box: fill-box; transform-origin: center; animation: pulse 3s ease-out infinite; }
+      .mk .dot { fill: var(--trk); stroke: var(--surface); stroke-width: 0.55; }
+      .mk .hit { fill: transparent; }
+      .mk.off { opacity: 0.14; pointer-events: none; }
+      .mk.off .halo { animation: none; }
+      .pin circle { fill: none; stroke: var(--fg); stroke-width: 0.6; }
+      .pin .in { fill: var(--fg); stroke: none; }
+      @keyframes pulse { 0% { transform: scale(0.55); opacity: 0.4; } 75% { transform: scale(1.5); opacity: 0; } 100% { opacity: 0; } }
+      @media (prefers-reduced-motion: reduce) { .mk .halo { animation: none; } }
+      .legend { display: flex; flex-wrap: wrap; gap: 4px 16px; justify-content: center; padding: 8px 4px 4px; font-size: 14px; color: var(--muted); }
+      .legend span { display: inline-flex; align-items: center; gap: 6px; }
+      .legend i { width: 9px; height: 9px; border-radius: 50%; background: var(--trk); }
+      .legend i.homei { background: none; border: 1.5px solid var(--fg); }
+
+      /* timeline */
+      .listhead { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin: 30px 0 2px; }
+      .listhead h2 { font-size: 23px; margin: 0; font-weight: 800; }
+      .year { margin-top: 26px; }
+      .yhead { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; padding: 0 2px 10px; border-bottom: 1px solid var(--line); margin-bottom: 14px; }
+      .ynum { font-size: 32px; font-weight: 800; letter-spacing: -0.01em; line-height: 1; }
+      .ymeta { display: flex; gap: 8px; align-items: center; font-size: 15px; color: var(--muted); }
+      .age { padding: 2px 10px; border-radius: 999px; background: var(--surface); border: 1px solid var(--line); color: var(--fg-2); font-size: 14px; font-weight: 650; }
+      .cards { display: grid; gap: 14px; }
+      .tcard {
+        position: relative; display: block; background: var(--surface); border: 1px solid var(--line); border-radius: 22px;
+        padding: 18px 18px 16px 22px; box-shadow: var(--shadow); overflow: hidden; transition: transform 0.15s, box-shadow 0.15s;
+      }
+      .tcard::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 5px; background: linear-gradient(180deg, var(--trk), var(--trk2)); }
+      .tcard::after {
+        content: ""; position: absolute; right: -60px; top: -60px; width: 180px; height: 180px; border-radius: 50%;
+        background: radial-gradient(circle, color-mix(in srgb, var(--trk) 14%, transparent), transparent 70%); pointer-events: none;
+      }
+      .tcard:active { transform: scale(0.985); }
+      @media (hover: hover) { .tcard:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); } }
+      .tc-top { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+      .tag { font-size: 14px; font-weight: 750; color: var(--trk-ink); background: var(--trk-bg); padding: 3px 11px; border-radius: 999px; letter-spacing: 0.02em; }
+      .tc-days { font-size: 15px; color: var(--muted); font-weight: 650; }
+      .tc-title { font-size: 22px; font-weight: 800; margin: 10px 0 3px; letter-spacing: 0.01em; line-height: 1.3; }
+      .tc-sub { font-size: 15px; color: var(--fg-2); line-height: 1.55; }
+      .tc-meta { display: flex; align-items: center; gap: 6px; margin-top: 10px; font-size: 15px; color: var(--muted); }
+      .tc-meta .ic { width: 16px; height: 16px; }
+      .sep { width: 3px; height: 3px; border-radius: 50%; background: var(--faint); margin: 0 4px; }
+      .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+      .chip { font-size: 14px; padding: 3px 10px; border-radius: 999px; background: var(--surface-2); border: 1px solid var(--line); color: var(--fg-2); white-space: nowrap; }
+      .chip b { font-weight: 750; color: var(--fg); }
+      .chip.warn { background: var(--warn-bg); color: var(--warn-ink); border-color: transparent; }
+      .tc-foot { display: flex; justify-content: space-between; align-items: flex-end; gap: 10px; margin-top: 14px; padding-top: 12px; border-top: 1px dashed var(--line-2); }
+      .tc-price b { display: block; font-size: 24px; font-weight: 800; line-height: 1.1; letter-spacing: -0.01em; }
+      .tc-price span { font-size: 14px; color: var(--muted); }
+      .flags { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
+      .flag { display: inline-flex; align-items: center; gap: 4px; font-size: 14px; font-weight: 650; padding: 3px 10px; border-radius: 999px; white-space: nowrap; }
+      .flag .ic { width: 14px; height: 14px; }
+      .flag.ok { background: var(--ok-bg); color: var(--ok-ink); }
+      .flag.warn { background: var(--warn-bg); color: var(--warn-ink); }
+      .empty { padding: 30px 0; text-align: center; color: var(--muted); font-size: 15px; }
+
+      /* detail hero */
+      .dhero {
+        position: relative; overflow: hidden; padding: calc(var(--ab-h) + env(safe-area-inset-top) + 18px) 0 22px;
+        margin-top: calc(-1 * (var(--ab-h) + env(safe-area-inset-top)));
+      }
+      .dh-bg {
+        position: absolute; inset: 0;
+        background:
+          radial-gradient(120% 90% at 0% 0%, color-mix(in srgb, var(--trk) 24%, transparent), transparent 60%),
+          radial-gradient(110% 90% at 100% 100%, color-mix(in srgb, var(--trk2) 20%, transparent), transparent 55%),
+          var(--bg);
+      }
+      .dh-mark {
+        position: absolute; right: -8px; bottom: -40px; font-size: 160px; font-weight: 900; letter-spacing: -0.04em;
+        color: var(--trk); opacity: 0.1; line-height: 1; pointer-events: none; user-select: none;
+      }
+      .dh-in { position: relative; }
+      .dh-title { font-size: 34px; line-height: 1.2; font-weight: 800; margin: 12px 0 6px; letter-spacing: 0.01em; }
+      .dh-sub { font-size: 16px; color: var(--fg-2); margin: 0 0 18px; line-height: 1.6; max-width: 40em; }
+      .facts { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+      .fact {
+        display: flex; gap: 10px; align-items: center; border-radius: 16px; padding: 10px 12px;
+        background: color-mix(in srgb, var(--surface) 86%, transparent); border: 1px solid var(--line);
+      }
+      .fact .ic { width: 20px; height: 20px; color: var(--trk); }
+      .fact span { display: block; font-size: 14px; color: var(--muted); line-height: 1.3; }
+      .fact b { display: block; font-size: 17px; font-weight: 750; line-height: 1.35; }
+      .minis { display: grid; gap: 10px; }
+      .mini { display: grid; gap: 1px; background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 12px 14px; box-shadow: var(--shadow-sm); }
+      .mini-id { font-size: 14px; font-weight: 750; color: var(--trk-ink); }
+      .mini-t { font-size: 18px; font-weight: 800; }
+      .mini-m { font-size: 15px; color: var(--muted); }
+
+      /* section bar */
+      .secbar {
+        position: sticky; top: calc(var(--ab-h) + env(safe-area-inset-top)); z-index: 30;
+        background: color-mix(in srgb, var(--bg) 84%, transparent);
+        -webkit-backdrop-filter: saturate(1.8) blur(18px); backdrop-filter: saturate(1.8) blur(18px);
+        border-bottom: 1px solid var(--line);
+      }
+      .sb-in { max-width: 1120px; margin: 0 auto; display: flex; gap: 6px; overflow-x: auto; padding: 9px 16px; scrollbar-width: none; }
+      .sb-in::-webkit-scrollbar { display: none; }
+      .sb-in a {
+        flex: none; font-size: 15px; font-weight: 650; padding: 6px 14px; border-radius: 999px; color: var(--muted);
+        background: var(--surface); border: 1px solid var(--line); white-space: nowrap; transition: background 0.15s, color 0.15s;
+      }
+      .sb-in a.on { background: var(--trk); border-color: var(--trk); color: #fff; }
+
+      /* document */
+      .doc { max-width: 780px; margin: 0 auto; padding: 4px 20px 20px; overflow-wrap: anywhere; }
+      .doc .preface h1 { display: none; }
+      .doc .preface hr { display: none; }
+      .doc h2 { font-size: 24px; line-height: 1.35; font-weight: 800; margin: 42px 0 14px; letter-spacing: 0.01em; }
+      .doc h2::before { content: ""; display: block; width: 34px; height: 4px; border-radius: 4px; background: linear-gradient(90deg, var(--trk), var(--trk2)); margin-bottom: 12px; }
+      .doc h3 { font-size: 19px; line-height: 1.45; font-weight: 750; margin: 30px 0 8px; }
+      .doc h4 { font-size: 17px; font-weight: 750; margin: 22px 0 6px; }
+      .doc h2, .doc h3, .doc h4 { scroll-margin-top: calc(env(safe-area-inset-top) + 128px); }
+      .doc p, .doc li { font-size: 17px; line-height: 1.78; }
+      .doc p { margin: 10px 0; }
+      .doc ul, .doc ol { padding-left: 1.3em; margin: 10px 0; }
+      .doc li { margin: 6px 0; }
+      .doc li::marker { color: var(--trk); }
+      .doc strong { font-weight: 750; }
+      .doc a { color: var(--link); text-decoration: underline; text-decoration-color: color-mix(in srgb, var(--link) 30%, transparent); text-underline-offset: 3px; }
+      .doc blockquote {
+        margin: 16px 0; padding: 14px 16px; border-radius: 18px; background: var(--trk-bg);
+        border: 1px solid color-mix(in srgb, var(--trk) 18%, transparent);
+      }
+      .doc blockquote p { font-size: 16px; margin: 6px 0; line-height: 1.72; }
+      .doc blockquote.summary { padding: 14px 16px 12px; }
+      .doc blockquote.summary::before { content: "摘要"; display: block; font-size: 13px; letter-spacing: 0.16em; font-weight: 800; color: var(--trk-ink); margin-bottom: 4px; }
+      .doc blockquote.summary p { font-size: 15px; margin: 6px 0; line-height: 1.65; }
+      .doc blockquote.summary strong { color: var(--trk-ink); }
+      .doc hr { border: 0; height: 1px; background: var(--line); margin: 28px 0; }
+      .doc pre { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 12px 14px; overflow-x: auto; font-size: 14px; line-height: 1.55; box-shadow: var(--shadow-sm); }
+      .doc code { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 0.88em; background: var(--surface-2); padding: 1px 5px; border-radius: 6px; }
+      .doc pre code { background: none; padding: 0; font-size: 14px; }
+      .tbl { margin: 14px 0 20px; overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: 16px; border: 1px solid var(--line); background: var(--surface); box-shadow: var(--shadow-sm); }
+      .doc table { width: 100%; border-collapse: collapse; font-size: 15px; line-height: 1.55; font-variant-numeric: tabular-nums; }
+      .doc th, .doc td { padding: 10px 12px; text-align: left; vertical-align: top; border-bottom: 1px solid var(--line); min-width: 3em; overflow-wrap: normal; }
+      .doc th { font-size: 14px; font-weight: 750; color: var(--muted); background: var(--surface-2); white-space: nowrap; }
+      .doc tbody tr:last-child td { border-bottom: 0; }
+      .doc tbody tr:nth-child(even) td { background: color-mix(in srgb, var(--surface-2) 55%, transparent); }
+      .doc .c-long { min-width: 9em; }
+      .doc .c-mid { min-width: 5em; }
+      .doc .c-short { white-space: nowrap; }
+      .doc .sources p, .doc .sources li { font-size: 14px; line-height: 1.6; color: var(--muted); }
+      .doc .sources a { word-break: break-all; }
+      .deadlink { color: var(--muted); }
+
+      /* prev / next, footer */
+      .pn { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; max-width: 780px; margin: 12px auto 0; padding: 0 20px; }
+      .pn-a { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 12px 14px; box-shadow: var(--shadow-sm); display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+      .pn-a span { display: flex; align-items: center; gap: 4px; font-size: 14px; color: var(--muted); }
+      .pn-a span .ic { width: 16px; height: 16px; }
+      .pn-a b { font-size: 16px; font-weight: 750; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+      .pn-a.next { align-items: flex-end; text-align: right; }
+      .foot { padding: 30px 20px 36px; text-align: center; font-size: 14px; color: var(--faint); display: grid; gap: 4px; }
+      .foot .ic { width: 14px; height: 14px; vertical-align: -2px; }
+
+      /* table-of-contents sheet */
+      .sheet-bg { position: fixed; inset: 0; z-index: 60; background: rgba(0, 0, 0, 0.32); opacity: 0; pointer-events: none; transition: opacity 0.2s; }
+      .sheet {
+        position: fixed; left: 0; right: 0; bottom: 0; z-index: 61; max-height: 78vh; background: var(--surface);
+        border-radius: 24px 24px 0 0; box-shadow: 0 -12px 40px rgba(0, 0, 0, 0.2); transform: translateY(105%);
+        transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1); display: flex; flex-direction: column; padding-bottom: env(safe-area-inset-bottom);
+      }
+      .sheet.open { transform: none; }
+      .sheet-bg.open { opacity: 1; pointer-events: auto; }
+      .grab { width: 40px; height: 5px; border-radius: 3px; background: var(--line-2); margin: 10px auto 4px; }
+      .sheet-h { font-size: 17px; font-weight: 800; padding: 4px 20px 8px; }
+      .sheet-list { overflow-y: auto; padding: 0 12px 16px; }
+      .sheet-list a { display: block; padding: 11px 10px; border-radius: 12px; font-size: 16px; font-weight: 700; }
+      .sheet-list a.d3 { padding-left: 28px; font-size: 15px; font-weight: 500; color: var(--fg-2); }
+      .sheet-list a:active { background: var(--surface-2); }
+
+      /* safety levels */
+      .lv0 { --lv: #9b9ba1; --lv-bg: var(--surface-2); --lv-ink: var(--muted); }
+      .lv1 { --lv: #2f9e6b; --lv-bg: #e4f4ec; --lv-ink: #1c6a45; }
+      .lv2 { --lv: #d49b12; --lv-bg: #fbf2d9; --lv-ink: #83590a; }
+      .lv3 { --lv: #e2692a; --lv-bg: #fde7d9; --lv-ink: #9a3f0f; }
+      .lv4 { --lv: #d23b3b; --lv-bg: #fbe3e3; --lv-ink: #981f1f; }
+      .tw1 { --lv: #8b8f97; --lv-bg: #eef0f2; --lv-ink: #4a4f57; }
+      @media (prefers-color-scheme: dark) {
+        .lv1 { --lv: #4cc38a; --lv-bg: rgba(76, 195, 138, 0.15); --lv-ink: #8fe0b6; }
+        .lv2 { --lv: #f0b93a; --lv-bg: rgba(240, 185, 58, 0.15); --lv-ink: #f6d27d; }
+        .lv3 { --lv: #f2884a; --lv-bg: rgba(242, 136, 74, 0.16); --lv-ink: #f7b088; }
+        .lv4 { --lv: #f06464; --lv-bg: rgba(240, 100, 100, 0.16); --lv-ink: #f7a3a3; }
+        .tw1 { --lv: #a0a6b0; --lv-bg: rgba(255, 255, 255, 0.07); --lv-ink: #c7ccd4; }
+      }
+      .pill { display: inline-flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 650; padding: 3px 10px; border-radius: 999px; background: var(--lv-bg); color: var(--lv-ink); line-height: 1.45; }
+      .pill i { width: 8px; height: 8px; border-radius: 50%; background: var(--lv); flex: none; }
+      .smk .halo { fill: var(--lv); opacity: 0.25; transform-box: fill-box; transform-origin: center; animation: pulse 3s ease-out infinite; }
+      .smk .dot { fill: var(--lv); stroke: var(--surface); stroke-width: 0.55; }
+      .smk .hit { fill: transparent; }
+      .smk { cursor: pointer; }
+
+      /* safety in trip hero */
+      .safe { margin-top: 14px; background: color-mix(in srgb, var(--surface) 88%, transparent); border: 1px solid var(--line); border-radius: 18px; padding: 12px 12px 6px; }
+      .safe-h { display: flex; align-items: center; gap: 8px; font-size: 16px; font-weight: 800; padding: 0 4px 8px; }
+      .safe-h .ic { width: 18px; height: 18px; color: var(--trk); }
+      .safe-h span { font-size: 14px; font-weight: 500; color: var(--muted); }
+      .srow { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; padding: 10px 6px; border-top: 1px solid var(--line); }
+      .srow-n { font-size: 16px; font-weight: 750; min-width: 4.5em; }
+      .srow-m { font-size: 14px; color: var(--muted); margin-left: auto; display: inline-flex; align-items: center; gap: 2px; }
+      .srow-m .ic { width: 16px; height: 16px; }
+
+      /* safety page */
+      .s-legend { background: var(--surface); border: 1px solid var(--line); border-radius: 20px; padding: 14px 16px; box-shadow: var(--shadow-sm); display: grid; gap: 12px; margin-top: 14px; }
+      .lg-row { display: grid; gap: 6px; }
+      .lg-row > b { font-size: 15px; }
+      .lg-row > div { display: flex; flex-wrap: wrap; gap: 6px; }
+      .lg-row p { margin: 0; font-size: 15px; color: var(--fg-2); line-height: 1.6; }
+      .s-counts { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+      .s-tools { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: space-between; margin: 26px 0 6px; }
+      .s-tools h2 { font-size: 23px; margin: 0; font-weight: 800; }
+      .toggle { display: inline-flex; align-items: center; gap: 6px; padding: 6px 13px; border-radius: 999px; font-size: 14px; font-weight: 650; background: var(--seg-bg); color: var(--muted); }
+      .toggle.on { background: var(--lv-bg, var(--accent-bg)); color: var(--lv-ink, var(--accent-ink)); }
+      .sgroup { margin-top: 22px; }
+      .sg-h { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; padding-bottom: 10px; border-bottom: 1px solid var(--line); margin-bottom: 12px; }
+      .sg-h b { font-size: 19px; font-weight: 800; }
+      .scards { display: grid; gap: 12px; }
+      .scard { background: var(--surface); border: 1px solid var(--line); border-radius: 20px; padding: 16px; box-shadow: var(--shadow); scroll-margin-top: calc(env(safe-area-inset-top) + 76px); }
+      .sc-top { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
+      .sc-name { font-size: 20px; font-weight: 800; }
+      .sc-name span { font-size: 14px; font-weight: 500; color: var(--muted); margin-left: 8px; }
+      .sc-trips { display: flex; gap: 4px; flex-wrap: wrap; justify-content: flex-end; }
+      .sc-trips span { font-size: 14px; font-weight: 700; color: var(--muted); background: var(--surface-2); border: 1px solid var(--line); border-radius: 8px; padding: 0 7px; }
+      .sc-pills { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+      .sc-metrics { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 12px; }
+      .met { background: var(--surface-2); border: 1px solid var(--line); border-radius: 14px; padding: 10px 12px; }
+      .met span { display: block; font-size: 14px; color: var(--muted); }
+      .met b { display: block; font-size: 20px; font-weight: 800; line-height: 1.3; color: var(--lv-ink, var(--fg)); }
+      .met em { display: block; font-style: normal; font-size: 14px; color: var(--muted); }
+      .gbar { position: relative; height: 6px; border-radius: 3px; margin: 8px 0 2px; background: linear-gradient(90deg, #2f9e6b, #d49b12 45%, #e2692a 72%, #d23b3b); opacity: 0.85; }
+      .gbar i { position: absolute; top: 50%; width: 12px; height: 12px; margin: -6px 0 0 -6px; border-radius: 50%; background: var(--surface); border: 3px solid var(--fg); }
+      .sc-note { font-size: 16px; line-height: 1.7; margin: 10px 0 0; }
+      .sc-note b { display: inline-block; font-size: 14px; font-weight: 800; color: var(--muted); margin-right: 8px; letter-spacing: 0.08em; }
+      .sc-src { margin-top: 10px; font-size: 14px; color: var(--muted); }
+      .sc-src a { color: var(--link); }
+      @media (min-width: 760px) {
+        .scards { grid-template-columns: repeat(2, 1fr); }
+        .sc-note { font-size: 15px; }
+      }
+
+      @media (min-width: 760px) {
+        body { font-size: 16px; }
+        .display { font-size: 54px; }
+        .stats { grid-template-columns: repeat(4, 1fr); }
+        .cards { grid-template-columns: repeat(2, 1fr); }
+        .facts { grid-template-columns: repeat(3, 1fr); }
+        .minis { grid-template-columns: repeat(3, 1fr); }
+        .dh-title { font-size: 42px; }
+        .dh-mark { font-size: 230px; }
+        .doc p, .doc li { font-size: 16px; }
+        .doc blockquote p { font-size: 15px; }
+        .doc table { font-size: 14px; }
+        .tc-sub, .tc-meta, .tc-days, .ymeta, .dh-sub, .mini-m, .sb-in a, .lede { font-size: 14px; }
+        .lede { font-size: 16px; }
+        .mapcard { padding: 22px 22px 10px; }
+      }
+      @media (min-width: 900px) {
+        .topnav { display: flex; }
+        .tabbar { display: none; }
+        .has-tabbar { padding-bottom: 0; }
+        .sheet { left: auto; right: 24px; bottom: 24px; width: 380px; border-radius: 24px; max-height: 70vh; }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script>
+      /* 全家環遊世界計劃 — 加密唯讀網站（見 publish.mjs）。
+         這個頁面是公開的；bundle.bin 是 AES-256-GCM 密文。鑰匙只在網址片段 #k=…，
+         瀏覽器不會送到伺服器；刻意不存進 localStorage／sessionStorage：同一個
+         *.github.io 帳號底下的所有網站共用同一個 origin，存了會被其他網站讀到。 */
+      (async () => {
+        "use strict";
+        const DOTS = {"source":"Natural Earth 1:110m land (public domain)","step":2,"lat0":76,"lon0":-180,"cols":180,"rows":["0000000038afc007ffff00000000030007ffc001d8000","0000000e88b7b003fffe000000000c003ffffec000000","80180009fc33fc00fffa00000300041dffffffeffc801","00fffbfe725d8f00fff800001ff000edfffffffffffdf","e0ffffffffff87c1ff8000007ffebffdfffffffffffff","31fffffffffd1f80fc01e000f9ebfffffffffffffffff","00fffffffff8034078000003e7fffffffffffffffffff","01fdffffffe01e0038000007e7ffffffffffffffff2f0","007807ffffe01e4000000007e3ffffffffffffff82200","001001fffff80fe000000182c7fffffffffffffe00f00","0080007fffff9ff8000003820ffffffffffffffc00e00","0000007fffff9ffc000006cfffffffffffffffffc0800","0000003ffffffffc000000dfffffffffffffffff40000","00000017ffffff460000007fffffffffffffffff40000","0000000fffffffc10000007ffffffffffffffffe40000","0000000fffffff600000007f7f97cffffffffffc00000","0000000ffffffe00000007f19f03cffffffffff8c0000","0000000ffffffc00000003c26f7fe7ffffffffe080000","0000000ffffff000000007c02dffe7fffffff84080000","00000007fffff0000000018740ffe7fffffffe6300000","00000003fffff000000001fe022ffffffffffc4f00000","00000001ffffc000000003ff000ffffffffffc1800000","00000000ffff8000000007ffef7ffffffffffe0000000","000000003fc04000000007ffffffdffffffffe0000000","000000005f80400000001fffffefe7fffffffc0000000","000000002f80000000001fffffe7f41ffffffc0000000","000000000780c00000003ffffff7ff07fffff20000000","000000000786100000007ffffffbfe07fcff000000000","0000000003cc020000003ffffff9fe03f07e800000000","0000000000fc000000003ffffff9f801e07f020000000","00000000000f000000007ffffffde001c01f020000000","000000000003000000003ffffffe8001c01f820000000","0000000000010f0000003fffffff3000c013008000000","000000000000aff000001fffffffe000a012000000000","0000000000001ff800000fffffffe0002000008000000","0000000000001fff00000687ffffc000002c180000000","0000000000001fff80000001ffff80000014380000000","0000000000003fff80000001ffff000000187a0000000","0000000000003fffe0000003fffe0000000c781800000","0000000000003ffffc000001fffc00000006762b80000","0000000000007fffff000000fffc000000020101e0000","0000000000003fffff800000fffc00000001c001f0800","0000000000001fffff000000fffc000000000880d0200","0000000000001ffffe0000007ffc00000000000000000","0000000000000ffffe000000fffc20000000001c40000","0000000000000ffffe000000fffc2000000000fc60040","00000000000003fffc000000fff8e000000001fe60000","00000000000001fffc000000fff0e000000001ffe0000","00000000000001fffc0000007ff0c00000000ffff8080","00000000000001fff00000007ff0c00000001ffff8000","00000000000001ffc00000007fe0800000001ffffc000","00000000000001ffc00000003fc0000000001ffffe000","00000000000003ff800000003fc0000000001ffffe000","00000000000003ff800000001f80000000000ffffe000","00000000000003ff000000001f00000000000f07fc000","00000000000003f8000000000000000000000801f8008","00000000000007fc000000000000000000000000f8004","00000000000007e000000000000000000000000000006","00000000000007a00000000000000000000000003000c","00000000000003c000000000000000000000000010018","000000000000078000000000000000000000000000030","000000000000078000000000000000000000000000000","0000000000000f0000000000000000080000000000000","0000000000000e0000000000000000000000000000000","000000000000070000000000000000000000000000000","000000000000030000000000000000000000000000000","000000000000000000000000000000000000000000000"]};
+        const app = document.getElementById("app");
+        const H = (s) => String(s == null ? "" : s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
+        const ICONS = {
+          back: '<path d="M15 18l-6-6 6-6"/>',
+          list: '<path d="M9 6h11M9 12h11M9 18h11"/><path d="M4.5 6h.01M4.5 12h.01M4.5 18h.01"/>',
+          globe: '<circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3c2.6 2.4 4 5.6 4 9s-1.4 6.6-4 9c-2.6-2.4-4-5.6-4-9s1.4-6.6 4-9z"/>',
+          chart: '<path d="M4 20h16"/><path d="M7.5 16.5v-5M12 16.5V6.5M16.5 16.5v-8"/>',
+          passport: '<rect x="5" y="3" width="14" height="18" rx="2.5"/><circle cx="12" cy="10.5" r="3.2"/><path d="M9 17h6"/>',
+          cal: '<rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/>',
+          moon: '<path d="M20 14.6A8.2 8.2 0 1 1 9.4 4a6.6 6.6 0 0 0 10.6 10.6z"/>',
+          user: '<circle cx="12" cy="8" r="3.6"/><path d="M5 20.5a7 7 0 0 1 14 0"/>',
+          wallet: '<rect x="3" y="6" width="18" height="13.5" rx="2.8"/><path d="M3 10.5h18"/><circle cx="16.5" cy="14.8" r="1"/>',
+          star: '<path d="M12 3.6l2.5 5.2 5.7.8-4.1 4 1 5.7L12 16.6l-5.1 2.7 1-5.7-4.1-4 5.7-.8z"/>',
+          arrowR: '<path d="M5 12h14M13 6l6 6-6 6"/>',
+          arrowL: '<path d="M19 12H5M11 6l-6 6 6 6"/>',
+          lock: '<rect x="5" y="10.5" width="14" height="10" rx="2.5"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/>',
+          school: '<path d="M3 9.5l9-5 9 5-9 5-9-5z"/><path d="M7 12v4.3c0 1.3 2.2 2.4 5 2.4s5-1.1 5-2.4V12"/>',
+          shield: '<path d="M12 3l7.5 3v5.5c0 4.6-3.1 8.4-7.5 9.9-4.4-1.5-7.5-5.3-7.5-9.9V6z"/><path d="M9 12l2 2 4-4"/>',
+          chev: '<path d="M9 6l6 6-6 6"/>',
+        };
+        const ic = (n, cls = "") =>
+          `<svg class="ic ${cls}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[n] || ""}</svg>`;
+
+        // ---------- dotted world map ----------
+        let LAND = "";
+        DOTS.rows.forEach((hex, r) => {
+          for (let i = 0; i < hex.length; i++) {
+            const v = parseInt(hex[i], 16);
+            for (let b = 0; b < 4; b++) if (v & (8 >> b)) LAND += `M${i * 4 + b + 0.5} ${r + 0.5}h0`;
+          }
+        });
+        const xy = ([lat, lon]) => [(lon - DOTS.lon0) / DOTS.step, (DOTS.lat0 - lat) / DOTS.step];
+        function mapSVG(markers = "") {
+          return `<svg class="map" viewBox="0 0 ${DOTS.cols} ${DOTS.rows.length}" role="img" aria-label="世界地圖"><path class="land" d="${LAND}"/>${markers}</svg>`;
+        }
+        function splash(title, sub, busy) {
+          app.innerHTML = `<div class="splash${busy ? " busy" : ""}">${mapSVG()}<div class="splash-t">${busy ? "" : ic("lock")}${H(title)}</div>${sub ? `<div class="splash-s">${H(sub)}</div>` : ""}</div>`;
+          if (!busy) addEventListener("hashchange", () => location.reload(), { once: true });
+        }
+
+        splash("解密中…", "", true);
+        if (!window.crypto || !crypto.subtle || !window.DecompressionStream)
+          return splash("這個瀏覽器太舊", "需要 iOS 16.4 以上或近期的 Chrome、Safari。");
+        const params = () => new URLSearchParams(location.hash.slice(1));
+        const K = params().get("k");
+        if (!K || !/^[A-Za-z0-9_-]{43}$/.test(K)) return splash("需要鑰匙", "請用 Mac 上 publish.mjs link 給的連結或 QR code 打開。");
+
+        let B;
+        try {
+          const raw = Uint8Array.from(atob(K.replace(/-/g, "+").replace(/_/g, "/") + "="), (c) => c.charCodeAt(0));
+          const key = await crypto.subtle.importKey("raw", raw, "AES-GCM", false, ["decrypt"]);
+          const r = await fetch("bundle.bin?t=" + Date.now(), { cache: "no-store" });
+          if (!r.ok) throw new Error("bundle.bin HTTP " + r.status);
+          const buf = new Uint8Array(await r.arrayBuffer());
+          // 12-byte IV ‖ ciphertext ‖ 16-byte tag; file name bound as associated data
+          const plain = await crypto.subtle.decrypt(
+            { name: "AES-GCM", iv: buf.subarray(0, 12), additionalData: new TextEncoder().encode("bundle.bin") },
+            key,
+            buf.subarray(12),
+          );
+          const gz = new Blob([plain]).stream().pipeThrough(new DecompressionStream("gzip"));
+          B = JSON.parse(await new Response(gz).text());
+        } catch (e) {
+          return e && e.name === "OperationError"
+            ? splash("鑰匙已失效", "可能在 Mac 上換過鑰匙，請用新的連結。")
+            : splash("載入失敗", String((e && e.message) || e));
+        }
+
+        // ---------- data helpers ----------
+        const T = B.trips;
+        const SEASON = { summer: "暑假", winter: "寒假", spring: "春假", midwinter: "期中假" };
+        const trk = (t) => (t.track === "summer" ? "summer" : t.track === "winter" ? "winter" : "short");
+        const money = (x) => (x == null ? "—" : "$" + (x / 1000).toFixed(1) + "K");
+        const moneyK = (x) => "$" + Math.round(x / 1000) + "K";
+        const md = (iso) => { const [, m, d] = String(iso).split("-"); return Number(m) + "/" + Number(d); };
+        const when = new Date(B.generated).toLocaleString("zh-TW", { month: "numeric", day: "numeric", hour: "2-digit", minute: "2-digit", hour12: false });
+        const docShort = (d) => (d === "E" ? "東亞短程" : (T.find((t) => t.doc === d) || {}).short || (B.docs[d] || {}).label || d);
+        let tier = "mid";
+        let filter = "all";
+        const match = (t) =>
+          filter === "all" || (filter === "short" ? t.track === "spring" || t.track === "midwinter" : t.track === filter);
+        const price = (t) => (tier === "mid" ? t.mid : t.comfort);
+
+        const go = (p, a) => {
+          const q = new URLSearchParams();
+          q.set("k", K);
+          if (p && p !== "trips") q.set("p", p);
+          if (a) q.set("a", a);
+          location.hash = q.toString();
+        };
+
+        // ---------- shared chrome ----------
+        const NAV = [["trips", "行程", "globe"], ["safety", "安全", "shield"], ["home", "總覽", "chart"], ["G1", "證件", "passport"]];
+        function topbar(cur) {
+          return `<header class="appbar"><div class="ab-in">
+            <a class="brand" href="#" data-go="trips"><span class="brand-mark">${ic("globe")}</span><span>環遊世界計劃</span></a>
+            <nav class="topnav">${NAV.map(([p, l]) => `<a href="#" data-go="${p}" class="${cur === p ? "on" : ""}">${l}</a>`).join("")}</nav>
+            <div class="grow"></div>
+            ${cur === "trips" ? `<div class="seg" role="tablist" aria-label="預算等級">${[["mid", "中等"], ["comfort", "舒適"]].map(([k, l]) => `<button data-tier="${k}" class="${tier === k ? "on" : ""}">${l}</button>`).join("")}</div>` : ""}
+          </div></header>`;
+        }
+        function detailbar(title) {
+          return `<header class="appbar"><div class="ab-in">
+            <button class="iconbtn" data-go="trips" aria-label="回行程列表">${ic("back")}</button>
+            <div class="ab-title">${H(title)}</div>
+            <button class="iconbtn" id="tocbtn" aria-label="目錄">${ic("list")}</button>
+          </div></header>`;
+        }
+        const tabbar = (cur) =>
+          `<nav class="tabbar">${NAV.map(([p, l, i]) => `<a href="#" data-go="${p}" class="${cur === p ? "on" : ""}">${ic(i)}<span>${l}</span></a>`).join("")}</nav>`;
+        const footer = () =>
+          `<footer class="foot"><div>${ic("lock")} 加密唯讀副本・同步 ${H(when)}</div><div>查證日期 ${H(B.checked)}；價格、規定、安全等級都會變，出發前 6 個月重查</div></footer>`;
+
+        // ---------- home ----------
+        function markers() {
+          let s = "";
+          for (const t of T) {
+            const on = match(t);
+            for (const p of t.points || []) {
+              const [x, y] = xy(p);
+              s += `<g class="mk t-${trk(t)}${on ? "" : " off"}" data-trip="${t.id}"><circle class="hit" cx="${x}" cy="${y}" r="5"/><circle class="halo" cx="${x}" cy="${y}" r="3.4"/><circle class="dot" cx="${x}" cy="${y}" r="1.5"/><title>${H(t.id + " " + t.short)}</title></g>`;
+            }
+          }
+          const [hx, hy] = xy(B.home.pt);
+          return s + `<g class="pin"><circle cx="${hx}" cy="${hy}" r="2.3"/><circle class="in" cx="${hx}" cy="${hy}" r="0.95"/><title>${H(B.home.name)}（出發地）</title></g>`;
+        }
+        function card(t) {
+          const other = tier === "mid" ? t.comfort : t.mid;
+          return `<a class="tcard t-${trk(t)}" href="#" data-trip="${t.id}">
+            <div class="tc-top"><span class="tag">${t.id}・${SEASON[t.track]}</span><span class="tc-days num">${t.days} 天</span></div>
+            <div class="tc-title">${H(t.short)}</div>
+            ${t.sub ? `<div class="tc-sub">${H(t.sub)}</div>` : ""}
+            <div class="tc-meta">${ic("cal")}<span class="num">${md(t.start)} – ${md(t.end)}</span><span class="sep"></span><span>女兒 ${t.kidAge} 歲</span></div>
+            <div class="chips">${t.countries.map(([n, k]) => `<span class="chip">${H(n)} <b class="num">${k}</b></span>`).join("")}</div>
+            <div class="tc-foot">
+              <div class="tc-price"><b class="num">${money(price(t))}</b><span>${tier === "mid" ? "中等" : "舒適"}・另一檔 ${money(other)}</span></div>
+              <div class="flags">${t.safety ? `<span class="pill lv${t.safety.us}"><i></i>警示 L${t.safety.us}</span>` : ""}${t.starPick ? `<span class="flag ok">${ic("star")}星宇</span>` : ""}${t.missed ? `<span class="flag warn">${ic("school")}缺課 ${t.missed} 天</span>` : ""}</div>
+            </div></a>`;
+        }
+        function yearBlock(y, list) {
+          const ts = list.filter((t) => t.start.startsWith(y));
+          const ages = [...new Set(ts.map((t) => t.kidAge))].sort((a, b) => a - b);
+          const sum = ts.reduce((s, t) => s + (Number(price(t)) || 0), 0);
+          return `<div class="year"><div class="yhead"><div class="ynum num">${y}</div><div class="ymeta"><span class="age">女兒 ${ages.length > 1 ? ages[0] + "–" + ages[ages.length - 1] : ages[0]} 歲</span><span class="num">${ts.length} 趟・${money(sum)}</span></div></div><div class="cards">${ts.map(card).join("")}</div></div>`;
+        }
+        function homeView() {
+          const list = T.filter(match);
+          const years = [...new Set(list.map((t) => t.start.slice(0, 4)))];
+          const total = (f) => T.reduce((s, t) => s + (Number(t[f]) || 0), 0);
+          const nCountries = new Set(T.flatMap((t) => t.countries.map((c) => c[0])).filter((n) => !/渡輪|機上|夜車/.test(n))).size;
+          const chip = (k, l) => `<button data-filter="${k}" class="${filter === k ? "on" : ""}">${l}</button>`;
+          app.innerHTML =
+            topbar("trips") +
+            `<main class="has-tabbar">
+              <section class="hero page">
+                <div class="eyebrow">LIN FAMILY ・ 2032 → 2042</div>
+                <h1 class="display">全家<span class="grad">環遊世界</span></h1>
+                <p class="lede">2 大 1 小，從女兒 6 歲走到 16 歲。暑假走遠、寒假走暖，17 個區域排成 21 趟。</p>
+                <div class="stats">
+                  <div class="stat"><b class="num">${T.length}</b><span>趟旅程</span></div>
+                  <div class="stat"><b class="num">${nCountries}</b><span>個國家</span></div>
+                  <div class="stat"><b class="num">${total("days")}</b><span>天在路上</span></div>
+                  <div class="stat"><b class="num">${moneyK(total(tier === "mid" ? "mid" : "comfort"))}</b><span>${tier === "mid" ? "中等" : "舒適"}合計</span></div>
+                </div>
+                <p class="note">金額為 2026 美元、3 人、含國際機票；右上角切換住宿等級。</p>
+              </section>
+              <section class="page"><div class="mapcard">${mapSVG(markers())}
+                <div class="legend"><span class="t-summer"><i></i>暑假</span><span class="t-winter"><i></i>寒假</span><span class="t-short"><i></i>春假・期中假</span><span><i class="homei"></i>西雅圖</span></div>
+              </div></section>
+              <section class="page">
+                <div class="listhead"><h2>行程時間軸</h2><div class="seg">${chip("all", "全部")}${chip("summer", "暑假")}${chip("winter", "寒假")}${chip("short", "短程")}</div></div>
+                ${years.length ? years.map((y) => yearBlock(y, list)).join("") : `<div class="empty">沒有符合的行程</div>`}
+              </section>
+              ${footer()}
+            </main>` +
+            tabbar("trips");
+          setupBar();
+        }
+
+        // ---------- documents ----------
+        const fact = (i, l, v) => `<div class="fact">${ic(i)}<div><span>${l}</span><b class="num">${H(v)}</b></div></div>`;
+        function dhero(id, D, trips) {
+          if (trips.length === 1) {
+            const t = trips[0];
+            const star = t.starPick ? "建議使用" : t.midStar != null ? "可用，不划算" : "無航點";
+            return `<section class="dhero"><div class="dh-bg"></div><div class="dh-mark">${H(t.id)}</div><div class="page dh-in">
+              <span class="tag">${H(t.id)}・${t.year} ${SEASON[t.track]}</span>
+              <h1 class="dh-title">${H(t.short)}</h1>
+              ${t.sub ? `<p class="dh-sub">${H(t.sub)}</p>` : ""}
+              <div class="facts">
+                ${fact("cal", "日期", `${md(t.start)} – ${md(t.end)}`)}${fact("moon", "天數", `${t.days} 天`)}${fact("user", "女兒", `${t.kidAge} 歲`)}
+                ${fact("wallet", "中等", money(t.mid))}${fact("wallet", "舒適", money(t.comfort))}${fact("star", "星宇親友票", star)}
+              </div>
+              <div class="chips">${t.countries.map(([n, k]) => `<span class="chip">${H(n)} <b class="num">${k}</b> 晚</span>`).join("")}${t.missed ? `<span class="chip warn">缺課 ${t.missed} 天</span>` : ""}</div>
+              ${safeBlock(t)}
+            </div></section>`;
+          }
+          if (trips.length > 1)
+            return `<section class="dhero"><div class="dh-bg"></div><div class="page dh-in">
+              <span class="tag">春假・期中假短程</span><h1 class="dh-title">東亞短程</h1><p class="dh-sub">日本、韓國，順道台灣／香港探親。</p>
+              <div class="minis">${trips.map((t) => `<a href="#" class="mini" data-trip="${t.id}"><span class="mini-id">${t.id}・${t.year} ${SEASON[t.track]}</span><span class="mini-t">${H(t.short)}</span><span class="mini-m num">${t.days} 天・中等 ${money(t.mid)}${t.missed ? `・缺課 ${t.missed} 天` : ""}</span></a>`).join("")}</div>
+            </div></section>`;
+          return `<section class="dhero"><div class="dh-bg"></div><div class="page dh-in">
+            <span class="tag">${id === "home" ? "總覽" : "共用規則"}</span><h1 class="dh-title">${H(D.label || D.title)}</h1>${D.intro ? `<p class="dh-sub">${H(D.intro)}</p>` : ""}
+          </div></section>`;
+        }
+        function prevNext(id) {
+          const o = B.order, i = o.indexOf(id);
+          if (i < 0) return "";
+          const p = o[i - 1], n = o[i + 1];
+          return `<nav class="pn">${p ? `<a href="#" class="pn-a" data-go="${p}"><span>${ic("arrowL")}上一趟</span><b>${H(p)} ${H(docShort(p))}</b></a>` : "<span></span>"}${n ? `<a href="#" class="pn-a next" data-go="${n}"><span>下一趟${ic("arrowR")}</span><b>${H(n)} ${H(docShort(n))}</b></a>` : "<span></span>"}</nav>`;
+        }
+        function docView(id, anchor) {
+          const D = B.docs[id];
+          if (!D) return go("trips");
+          const trips = T.filter((t) => t.doc === id);
+          const top = id === "home" || id === "G1";
+          const k = trips.length === 1 ? trk(trips[0]) : id === "E" ? "short" : "neutral";
+          const title = trips.length === 1 ? `${trips[0].id} ${trips[0].short}` : D.label || D.title;
+          app.innerHTML =
+            (top ? topbar(id) : detailbar(title)) +
+            `<main class="t-${k}${top ? " has-tabbar" : ""}">
+              ${dhero(id, D, trips)}
+              ${D.sections.length ? `<nav class="secbar"><div class="sb-in" id="sb">${D.sections.map((s) => `<a href="#" data-anchor="${H(s.id)}" data-chip="${H(s.id)}">${H(s.label)}</a>`).join("")}</div></nav>` : ""}
+              <article class="doc">${D.html}</article>
+              ${top ? "" : prevNext(id)}
+              ${footer()}
+            </main>` +
+            (D.toc.length
+              ? `<div class="sheet-bg" id="sheetbg"></div><div class="sheet t-${k}" id="sheet"><div class="grab"></div><div class="sheet-h">目錄</div><div class="sheet-list">${D.toc.map((x) => `<a href="#" class="d${x.depth}" data-anchor="${H(x.id)}">${H(x.text)}</a>`).join("")}</div></div>`
+              : "") +
+            (top ? tabbar(id) : "");
+          setupBar();
+          setupDoc();
+          if (anchor) requestAnimationFrame(() => requestAnimationFrame(() => jump(anchor, false)));
+          else window.scrollTo(0, 0);
+        }
+
+        // ---------- safety ----------
+        const S = B.safety || null;
+        const SC = S ? Object.fromEntries(S.countries.map((c) => [c.iso3, c])) : {};
+        const twCls = (n) => (n === 1 ? "tw1" : "lv" + (n || 0));
+        const twShort = (c) => (c.tw && c.tw.label ? c.tw.label.slice(0, 2) : "—");
+        const REF = (S && S.reference && S.reference.homicide) || {};
+        const homCls = (r) => {
+          if (r == null) return "lv0";
+          const ca = (REF.CAN && REF.CAN.rate) || 2, us = (REF.USA && REF.USA.rate) || 5.8;
+          return r < ca ? "lv1" : r < us ? "lv2" : r < us * 3 ? "lv3" : "lv4";
+        };
+        const warnOf = (c) => (c.us && c.us.level >= 2) || (c.tw && c.tw.level >= 3);
+        let sSort = "trip", sWarn = false;
+        function safeBlock(t) {
+          if (!S || !t.safety || !t.safety.list.length) return "";
+          return `<div class="safe"><div class="safe-h">${ic("shield")}安全一覽<span>點國家看治安重點</span></div>${t.safety.list
+            .map((i) => SC[i])
+            .filter(Boolean)
+            .map(
+              (c) => `<a href="#" class="srow" data-safety="${c.iso3}"><span class="srow-n">${H(c.zh)}</span>
+                <span class="pill lv${c.us ? c.us.level : 0}"><i></i>美國 L${c.us ? c.us.level : "—"}</span>
+                <span class="pill ${twCls(c.tw && c.tw.level)}"><i></i>台灣 ${H(twShort(c))}</span>
+                <span class="srow-m num">${c.gpi ? "GPI 第 " + c.gpi.rank + " 名" : "GPI 未列入"}・兇殺 ${c.hom ? c.hom.rate : "—"}${ic("chev")}</span></a>`,
+            )
+            .join("")}</div>`;
+        }
+        function scard(c, withId) {
+          const us = c.us ? c.us.level : 0, tw = c.tw ? c.tw.level : 0, ca = c.ca ? c.ca.level + 1 : 0;
+          const links = [c.us && ["美國國務院", c.us.url], c.tw && ["台灣", c.tw.url], c.ca && ["加拿大", c.ca.url]].filter(Boolean);
+          return `<div class="scard"${withId ? ` id="c-${c.iso3}"` : ""}>
+            <div class="sc-top"><div class="sc-name">${H(c.zh)}<span>${H(c.en)}</span></div><div class="sc-trips">${c.trips.map((x) => `<span>${H(x)}</span>`).join("")}</div></div>
+            <div class="sc-pills">
+              <span class="pill lv${us}"><i></i>美國 L${us || "—"}${c.us && c.us.why.length ? "・" + H(c.us.why.join("、")) : ""}</span>
+              <span class="pill ${twCls(tw)}"><i></i>台灣 ${H((c.tw && c.tw.label) || "—")}</span>
+              <span class="pill lv${ca}"><i></i>加拿大 ${H((c.ca && c.ca.label) || "—")}${c.ca && c.ca.regional ? "＋部分地區更高" : ""}</span>
+            </div>
+            <div class="sc-metrics">
+              <div class="met"><span>全球和平指數 2026</span><b class="num">${c.gpi ? "第 " + c.gpi.rank + " 名" : "未列入"}</b>${c.gpi ? `<div class="gbar"><i style="left:${(((c.gpi.rank - 1) / 162) * 100).toFixed(1)}%"></i></div><em>163 國・分數 ${c.gpi.score}</em>` : `<em>小國或地區未單獨排名</em>`}</div>
+              <div class="met ${homCls(c.hom && c.hom.rate)}"><span>兇殺率／10 萬人</span><b class="num">${c.hom ? c.hom.rate : "無資料"}</b><em>${c.hom ? c.hom.year + " 年・美國 " + ((REF.USA && REF.USA.rate) || "—") : "UNODC 無近年資料"}</em></div>
+            </div>
+            ${c.crime ? `<p class="sc-note"><b>治安</b>${H(c.crime)}</p>` : ""}
+            ${c.watch ? `<p class="sc-note"><b>注意</b>${H(c.watch)}</p>` : ""}
+            <div class="sc-src">來源：${links.map(([l, u]) => `<a href="${H(u)}" target="_blank" rel="noopener noreferrer">${l}</a>`).join("・")}${(c.src || []).length ? "・治安重點引自上列官方頁面" : ""}</div>
+          </div>`;
+        }
+        function safetyMarkers() {
+          let s = "";
+          for (const t of T) {
+            if (!t.safety) continue;
+            for (const p of t.points || []) {
+              const [x, y] = xy(p);
+              s += `<g class="smk lv${t.safety.us}" data-trip="${t.id}"><circle class="hit" cx="${x}" cy="${y}" r="5"/><circle class="halo" cx="${x}" cy="${y}" r="3.4"/><circle class="dot" cx="${x}" cy="${y}" r="1.5"/><title>${H(t.id + " " + t.short + "：最高 L" + t.safety.us)}</title></g>`;
+            }
+          }
+          const [hx, hy] = xy(B.home.pt);
+          return s + `<g class="pin"><circle cx="${hx}" cy="${hy}" r="2.3"/><circle class="in" cx="${hx}" cy="${hy}" r="0.95"/></g>`;
+        }
+        function safetyView(anchor) {
+          if (!S) return go("trips");
+          const C = S.countries;
+          const vis = C.filter((c) => !sWarn || warnOf(c));
+          const count = (k, n) => C.filter((c) => c[k] && c[k].level === n).length;
+          const seen = new Set();
+          const card = (c) => {
+            const first = !seen.has(c.iso3);
+            seen.add(c.iso3);
+            return scard(c, first);
+          };
+          let body = "";
+          if (sSort === "trip") {
+            for (const t of T) {
+              const cs = (t.safety ? t.safety.list : []).map((i) => SC[i]).filter((c) => c && vis.includes(c));
+              if (!cs.length) continue;
+              body += `<div class="sgroup t-${trk(t)}"><div class="sg-h"><span class="tag">${t.id}・${t.year} ${SEASON[t.track]}</span><b>${H(t.short)}</b><span class="pill lv${t.safety.us}"><i></i>最高 L${t.safety.us}</span></div><div class="scards">${cs.map(card).join("")}</div></div>`;
+            }
+            const opt = vis.filter((c) => !c.trips.some((x) => /^[SWE]\d+$/.test(x)));
+            if (opt.length)
+              body += `<div class="sgroup t-neutral"><div class="sg-h"><span class="tag">選配・替代・中轉</span><b>其他可能去的地方</b></div><div class="scards">${opt.map(card).join("")}</div></div>`;
+          } else {
+            const key = sSort === "gpi" ? (c) => (c.gpi ? c.gpi.rank : 999) : (c) => (c.hom ? c.hom.rate : 999);
+            body = `<div class="sgroup"><div class="scards">${[...vis].sort((a, b) => key(a) - key(b)).map(card).join("")}</div></div>`;
+          }
+          const sortBtn = (k, l) => `<button data-ssort="${k}" class="${sSort === k ? "on" : ""}">${l}</button>`;
+          app.innerHTML =
+            topbar("safety") +
+            `<main class="t-neutral has-tabbar">
+              <section class="dhero"><div class="dh-bg"></div><div class="page dh-in">
+                <span class="tag">安全與治安</span><h1 class="dh-title">安全指數與治安</h1>
+                <p class="dh-sub">${C.length} 個國家／地區的三方旅遊警示、全球和平指數、兇殺率，加上給遊客的治安重點。查證日期 ${H(S.checked)}，出發前 6 個月重查。</p>
+                <div class="s-counts">${[1, 2, 3, 4].map((n) => `<span class="pill lv${n}"><i></i>美國 L${n}：${count("us", n)} 國</span>`).join("")}</div>
+                <div class="s-legend">
+                  <div class="lg-row"><b>美國國務院旅遊警示</b><div><span class="pill lv1"><i></i>L1 一般注意</span><span class="pill lv2"><i></i>L2 提高警覺</span><span class="pill lv3"><i></i>L3 重新考慮</span><span class="pill lv4"><i></i>L4 不要前往</span></div></div>
+                  <div class="lg-row"><b>台灣外交部旅遊警示</b><div><span class="pill tw1"><i></i>灰色提醒</span><span class="pill lv2"><i></i>黃色注意</span><span class="pill lv3"><i></i>橙色避免前往</span><span class="pill lv4"><i></i>紅色儘速離境</span></div><p>港澳是陸委會的燈號（對台灣國民）。</p></div>
+                  <div class="lg-row"><b>加拿大政府旅遊建議</b><p>正常防範／高度謹慎／避免非必要旅行／避免一切旅行；「＋部分地區更高」表示有局部更高等級的區域（看卡片的「注意」）。</p></div>
+                  <div class="lg-row"><b>全球和平指數（GPI 2026）</b><p>經濟與和平研究所（IEP）對 163 國的排名，綜合治安、內外衝突、軍事化 23 項指標；名次越前越和平。橫條上的點是該國的位置。</p></div>
+                  <div class="lg-row"><b>兇殺率</b><p>每 10 萬人一年的故意殺人案（UNODC，經世界銀行）。參考：加拿大 ${(REF.CAN && REF.CAN.rate) || "—"}、美國 ${(REF.USA && REF.USA.rate) || "—"}。顏色：低於加拿大＝綠、低於美國＝黃、美國的 1–3 倍＝橙、3 倍以上＝紅。</p></div>
+                </div>
+              </div></section>
+              <section class="page"><div class="mapcard">${mapSVG(safetyMarkers())}
+                <div class="legend"><span class="lv1"><i style="background:var(--lv)"></i>最高 L1</span><span class="lv2"><i style="background:var(--lv)"></i>L2</span><span class="lv3"><i style="background:var(--lv)"></i>L3</span><span class="lv4"><i style="background:var(--lv)"></i>L4</span><span><i class="homei"></i>西雅圖</span></div>
+              </div></section>
+              <section class="page">
+                <div class="s-tools"><h2>各國安全卡</h2><div class="seg">${sortBtn("trip", "依行程")}${sortBtn("gpi", "依和平指數")}${sortBtn("hom", "依兇殺率")}</div>
+                  <button class="toggle lv3${sWarn ? " on" : ""}" data-swarn="1">${ic("shield")}只看需注意（美國 L2+ 或台灣橙色+）</button></div>
+                ${body || `<div class="empty">沒有符合的國家</div>`}
+              </section>
+              ${footer()}
+            </main>` +
+            tabbar("safety");
+          setupBar();
+          if (anchor) requestAnimationFrame(() => requestAnimationFrame(() => jump(anchor, false)));
+        }
+
+        // ---------- behaviour ----------
+        let cleanups = [];
+        const cleanup = () => { cleanups.forEach((f) => f()); cleanups = []; };
+        function setupBar() {
+          const bar = app.querySelector(".appbar");
+          const hero = app.querySelector(".dhero, .hero");
+          if (!bar) return;
+          const onScroll = () => {
+            bar.classList.toggle("scrolled", scrollY > 4);
+            if (hero) bar.classList.toggle("show-title", hero.getBoundingClientRect().bottom < 70);
+          };
+          addEventListener("scroll", onScroll, { passive: true });
+          cleanups.push(() => removeEventListener("scroll", onScroll));
+          onScroll();
+        }
+        function setupDoc() {
+          const sb = document.getElementById("sb");
+          if (!sb || !window.IntersectionObserver) return;
+          const chips = [...sb.querySelectorAll("[data-chip]")];
+          let active = "";
+          const io = new IntersectionObserver(
+            (ents) => {
+              for (const e of ents) {
+                if (!e.isIntersecting) continue;
+                const id = e.target.dataset.sec;
+                if (id === active) continue;
+                active = id;
+                chips.forEach((c) => c.classList.toggle("on", c.dataset.chip === id));
+                const c = chips.find((x) => x.dataset.chip === id);
+                if (c) sb.scrollTo({ left: c.offsetLeft - 16, behavior: "smooth" });
+              }
+            },
+            { rootMargin: "-140px 0px -60% 0px" },
+          );
+          app.querySelectorAll("section.sec").forEach((s) => io.observe(s));
+          cleanups.push(() => io.disconnect());
+        }
+        function sheet(open) {
+          const s = document.getElementById("sheet"), bg = document.getElementById("sheetbg");
+          if (!s) return;
+          s.classList.toggle("open", open);
+          bg.classList.toggle("open", open);
+        }
+        function jump(anchor, smooth = true) {
+          sheet(false);
+          const el = document.getElementById(anchor);
+          if (el) el.scrollIntoView({ block: "start", behavior: smooth ? "smooth" : "auto" });
+        }
+        function tripTarget(id) {
+          const t = T.find((x) => x.id === id);
+          if (!t || t.doc === id) return [id, ""];
+          const hit = (B.docs[t.doc].toc || []).find((x) => x.depth === 2 && x.text.startsWith(id));
+          return [t.doc, hit ? hit.id : ""];
+        }
+        function rerenderHome() {
+          const y = scrollY;
+          cleanup();
+          homeView();
+          window.scrollTo(0, y);
+        }
+
+        app.addEventListener("click", (e) => {
+          const el = e.target.closest("[data-go],[data-trip],[data-doc],[data-anchor],[data-filter],[data-tier],[data-safety],[data-ssort],[data-swarn],#tocbtn,#sheetbg");
+          if (!el) return;
+          if (el.id === "tocbtn") return sheet(true);
+          if (el.id === "sheetbg") return sheet(false);
+          e.preventDefault();
+          if (el.dataset.tier) { tier = el.dataset.tier; return rerenderHome(); }
+          if (el.dataset.filter) { filter = el.dataset.filter; return rerenderHome(); }
+          if (el.dataset.ssort || el.dataset.swarn) {
+            if (el.dataset.ssort) sSort = el.dataset.ssort;
+            else sWarn = !sWarn;
+            const y = scrollY;
+            cleanup();
+            safetyView();
+            return window.scrollTo(0, y);
+          }
+          if (el.dataset.safety) return go("safety", "c-" + el.dataset.safety);
+          if (el.dataset.go) return go(el.dataset.go);
+          if (el.dataset.trip) return go(...tripTarget(el.dataset.trip));
+          if (el.dataset.doc) return go(el.dataset.doc, el.dataset.anchor || "");
+          if (el.dataset.anchor) return jump(el.dataset.anchor);
+        });
+        addEventListener("keydown", (e) => { if (e.key === "Escape") sheet(false); });
+
+        let lastPage = null, listY = 0;
+        function route() {
+          const q = params();
+          if (q.get("k") !== K) return location.reload();
+          const p = q.get("p") || "trips";
+          const a = q.get("a") || "";
+          if (p === lastPage && p !== "trips" && a) return jump(a);
+          if (lastPage === "trips" && p !== "trips") listY = scrollY;
+          cleanup();
+          if (p === "trips") {
+            homeView();
+            window.scrollTo(0, lastPage && lastPage !== "trips" ? listY : 0);
+          } else if (p === "safety" || p === "G2") {
+            safetyView(a);
+            if (!a) window.scrollTo(0, 0);
+          } else docView(p, a);
+          lastPage = p;
+        }
+        addEventListener("hashchange", route);
+        route();
+      })();
+    </script>
+  </body>
+</html>
